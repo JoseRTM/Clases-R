@@ -16,17 +16,27 @@ En estudios experimentales, la randomización es esencial para garantizar la equ
 El objetivo de este trabajo será utilizar test de hipótesis para determinar si existen diferencias significativas entre el grupo de tratamiento y control. Como investigadores, esperamos que los grupos no presenten diferencias significativas entre todos los factores observados.
 
 #### Descripción de la base de datos
+
 La base `diabetes.csv` contiene variables basales sobre pacientes con y sin diabetes.
 
-- Pregnancies: Número de embarazos
-- Glucose: Nivel de Glucosa en sangre
-- BloodPressure: Presión arterial
-- SkinThickness: Indicador del grosor de la piel
-- Insulin: Nivel de insulina en la sangre
-- BMI: Índice de Masa Corporal(IMC)
-- Age: Edad
-- DiabetesPedigreeFunction: Porcentaje de diabetes
-- Outcome: 1=Tiene diabetes, 2= No tiene
+-   Pregnancies: Número de embarazos
+
+-   Glucose: Nivel de Glucosa en sangre
+
+-   BloodPressure: Presión arterial
+
+-   SkinThickness: Indicador del grosor de la piel
+
+-   Insulin: Nivel de insulina en la sangre
+
+-   BMI: Índice de Masa Corporal(IMC)
+
+-   Age: Edad
+
+-   DiabetesPedigreeFunction: Porcentaje de diabetes
+
+-   Outcome: 1=Tiene diabetes, 2= No tiene
+
 ```{r cargar datos}
 data <- read.csv("https://github.com/JoseRTM/Clases-R/raw/main/diabetes.csv")
 ```
