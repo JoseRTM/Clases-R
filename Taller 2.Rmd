@@ -17,6 +17,7 @@ El objetivo de este trabajo será utilizar test de hipótesis para determinar si
 
 #### Descripción de la base de datos
 La base `diabetes.csv` contiene variables basales sobre pacientes con y sin diabetes.
+
 - Pregnancies: Número de embarazos
 - Glucose: Nivel de Glucosa en sangre
 - BloodPressure: Presión arterial
