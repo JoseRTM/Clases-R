@@ -11,8 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Antecedentes
 
-Describir antecedentes de la randomización
-`blockrand`
+En estudios experimentales, la randomización es esencial para garantizar la equivalencia inicial de los grupos y, por ende, proporcionar validez a las inferencias causales resultantes del experimento. Esta técnica implica la asignación aleatoria de sujetos a diferentes condiciones o tratamientos, minimizando así cualquier sesgo o factor confusor En este contexto, el paquete `blockrand` de R ofrece una herramienta específica para la randomización por bloques, permitiendo una asignación balanceada de tratamientos en grupos predeterminados. 
+
+El objetivo de este trabajo será utilizar test de hipótesis para determinar si existen diferencias significativas entre el grupo de tratamiento y control. Como investigadores, esperamos que los grupos no presenten diferencias significativas entre todos los factores observados.
+
 
 ```{r cargar datos}
 data <- read.csv("https://github.com/JoseRTM/Clases-R/raw/main/diabetes.csv")
