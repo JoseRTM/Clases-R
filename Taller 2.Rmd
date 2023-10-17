@@ -1,0 +1,29 @@
+---
+title: "Taller de Test de hipótesis"
+author: "José A. Ruiz-Tagle"
+date: "2023-10-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Antecedentes
+
+Describir antecedentes de la randomización
+`blockrand`
+
+```{r cargar datos}
+data <- read.csv("https://github.com/JoseRTM/Clases-R/raw/main/diabetes.csv")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
