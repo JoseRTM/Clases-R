@@ -1,12 +1,19 @@
 ---
 title: "Taller de Test de hipótesis"
 author: "José A. Ruiz-Tagle"
-date: "2023-10-17"
+date: "`r format(Sys.time(), '%d de %B, %Y')`"
 output: pdf_document
+header-includes:
+   - \usepackage{booktabs}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyr)
+library(kableExtra)
+library(broom)
+library(blockrand)
 ```
 
 ### Antecedentes
@@ -37,16 +44,86 @@ La base `diabetes.csv` contiene variables basales sobre pacientes con y sin diab
 
 -   Outcome: 1=Tiene diabetes, 2= No tiene
 
-```{r cargar datos}
+
+## Randomización
+
+
+```{r, message=FALSE,warning =F}
 data <- read.csv("https://github.com/JoseRTM/Clases-R/raw/main/diabetes.csv")
+
+# Creamos la variable id
+data$id <- 1:nrow(data)
+n_participantes <- nrow(data)
+
+# Definir el tamaño de bloque
+tamano_bloque <- 4
+
+# Definir los grupos de tratamiento
+grupos <- c("Tratamiento", "Control")
+
+# Realizar la randomización por bloques
+asignacion <- blockrand(n_participantes, num.levels = 2, levels = grupos)
+# Ver la asignación
+
+data <- data %>% dplyr::inner_join(asignacion, by = "id")
+
+head(data)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, warning=FALSE, message=FALSE}
+
+# Reestructuramos los datos para las pruebas t
+# Vamos a seleccionar solo las columnas relevantes antes de pivotar.
+data_relevant <- data %>%
+  select(-id, -block.id, -Outcome, -block.size) # Excluye las columnas que no quieres pivotar.
+
+# Ahora, pivotamos el dataframe modificado
+data_long <- data_relevant %>%
+  pivot_longer(
+    cols = -treatment, # Esto pivotará todas las columnas excepto 'treatment'.
+    names_to = "variable", 
+    values_to = "value"
+  )
+
+
+# Realizamos pruebas t para cada variable y creamos una tabla resumen
+resumen <- data_long %>%
+  group_by(variable) %>%
+  summarise(
+    # Realizamos la prueba t y extraemos directamente el intervalo de confianza
+    ci_data = list(broom::tidy(t.test(value ~ treatment, data = cur_data()))),
+    media_Tratamiento = mean(value[treatment == "Tratamiento"], na.rm = TRUE),
+    sd_Tratamiento = sd(value[treatment == "Tratamiento"], na.rm = TRUE),
+    media_Control = mean(value[treatment == "Control"], na.rm = TRUE),
+    sd_Control = sd(value[treatment == "Control"], na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  # Aquí, vamos a 'desempacar' el intervalo de confianza y prepararlo para la tabla
+  mutate(
+    ci_data = purrr::map(ci_data, ~ .x %>% select(conf.low, conf.high)),
+    ci_lower = purrr::map_dbl(ci_data, ~ .x$conf.low),
+    ci_upper = purrr::map_dbl(ci_data, ~ .x$conf.high),
+    Tratamiento = sprintf("%.2f (%.2f)", media_Tratamiento, sd_Tratamiento),
+    Control = sprintf("%.2f (%.2f)", media_Control, sd_Control),
+    Intervalo_Confianza = sprintf("[%.2f, %.2f]", ci_lower, ci_upper)
+  ) %>%
+  select(variable, Tratamiento, Control, Intervalo_Confianza) # Seleccionamos las columnas relevantes
+resumen %>%
+  kable("latex", booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "striped", full_width = FALSE) %>%
+  column_spec(1, bold = TRUE) %>%
+  add_header_above(c(" " = 1, "Grupo de tratamiento" = 2, " " = 1))  # Ajusta según tus columnas
 ```
+Objetivo: Interpretar los intervalos de confianza y contestar la siguiente pregunta:
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+- En base a toda la información disponible. ¿Usted diría que la randomización cumplió su objetivo? Es decir, son comparables los grupos? Se observan diferencias sustantivas entre el grupo de tratamiento y control?
+- El primer párrafo debe interpretar todos los intervalos de confianza. La forma correcta de citar un intervalo de confianza en el texto es la siguiente:
+"Se observa una diferencia significativa entre X e Y (95%CI: X.XX;X.XX)."
+- El segundo párrafo debe contener una conclusión que responde a las interrogantes planteadas.
+- Escribir en máximo 1 plana en times new roman N°12 interlineado 1.5. 
+- Incluir los nombres de las personas que integran el grupo dentro y fuera del documento. 
+
+
+
