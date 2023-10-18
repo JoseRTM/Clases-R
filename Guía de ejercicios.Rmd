@@ -1,0 +1,44 @@
+---
+title: "Guía de ejercicios"
+author: "José A. Ruiz-Tagle, MSc"
+date: "`r format(Sys.time(), '%d de %B, %Y')`"
+output: pdf_document
+header-includes:
+   - \usepackage{booktabs}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Descripción de la base de datos
+
+La base `diabetes.csv` contiene variables basales sobre pacientes con y sin diabetes.
+
+-   Pregnancies: Número de embarazos
+
+-   Glucose: Nivel de Glucosa en sangre
+
+-   BloodPressure: Presión arterial
+
+-   SkinThickness: Indicador del grosor de la piel
+
+-   Insulin: Nivel de insulina en la sangre
+
+-   BMI: Índice de Masa Corporal(IMC)
+
+-   Age: Edad
+
+-   DiabetesPedigreeFunction: Porcentaje de diabetes
+
+-   Outcome: 1=Tiene diabetes, 2= No tiene
+
+```{r, message=FALSE,warning =F}
+data <- read.csv("https://github.com/JoseRTM/Clases-R/raw/main/diabetes.csv")
+```
+
+#### Objetivo 
+Evaluar si existen diferencias entre las variables independientes y el outcome (diabetes). Realizar análisis descriptivo y test de hipótesis.
+
+- DEBE interpretar intervalos de confianza y p valor.
