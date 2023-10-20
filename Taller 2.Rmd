@@ -125,5 +125,7 @@ Objetivo: Interpretar los intervalos de confianza y contestar la siguiente pregu
 - Escribir en máximo 1 plana en times new roman N°12 interlineado 1.5. 
 - Incluir los nombres de las personas que integran el grupo dentro y fuera del documento. 
 
+### Ítem 2: Lectura
 
+En base al texto "Contra la sumisión estadística" describa cuáles son las limitaciones de los test de hipótesis y de qué manera se pueden complementar. Debe fundamentar su respuesta en base al texto.
 
