@@ -3,7 +3,7 @@ library(ggplot2)
 library(tidyr)
 library(nortest)
 
-data <- read_csv("spotify-2023.csv")
+data <- readr::read_csv("https://github.com/JoseRTM/Clases-R/raw/main/movie_profit.csv")
 
 
 # DESCRIPTIVO
